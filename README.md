@@ -2,17 +2,17 @@
 
 # Plataforma de Gerenciamento de Organizações de eSports
 
-## 1. Descrição da Aplicação
+##  Descrição da Aplicação
 
 A aplicação tem como objetivo gerenciar informações relacionadas ao cenário competitivo de esportes eletrônicos (eSports). O sistema permite armazenar dados de organizações, equipes, jogadores, membros da comissão técnica, jogos eletrônicos, patrocinadores e contratos de patrocínio.
 
 A plataforma foi desenvolvida utilizando MongoDB, adotando o modelo orientado a documentos para representar entidades do ambiente competitivo de eSports.
 
-## 2. Objetivo
+##  Objetivo
 
 O objetivo do sistema é possibilitar o gerenciamento das principais informações das organizações de eSports, permitindo consultas sobre equipes, jogadores, salários, patrocinadores e investimentos realizados nas equipes.
 
-## 3. Estrutura do Banco de Dados
+##  Estrutura do Banco de Dados
 
 O banco de dados foi denominado "plataforma_esports" e é composto pelas seguintes coleções:
 
@@ -94,7 +94,7 @@ Atributos:
 * inicio
 * fim
 
-## 4. Relacionamentos
+##  Relacionamentos
 
 * Uma organização pode possuir várias equipes.
 * Uma equipe pertence a apenas uma organização.
@@ -103,7 +103,7 @@ Atributos:
 * Um patrocinador pode patrocinar várias equipes.
 * Uma equipe pode possuir vários patrocinadores através dos contratos.
 
-## 5. Dados Inseridos
+##  Dados Inseridos
 
 Foram cadastradas:
 
@@ -115,7 +115,7 @@ Foram cadastradas:
 * 5 patrocinadores;
 * 10 contratos de patrocínio.
 
-## 6. Consultas Desenvolvidas
+##  Consultas Desenvolvidas
 
 Foram implementadas consultas para:
 

@@ -77,6 +77,34 @@ db.organizacoes.updateOne(
     { $addToSet:{ redes_sociais: "Facebook"}}
 )
 
+// adicionado novo campo "pontuacao" para as equipes
+
+db.equipes.updateOne(
+    { nome: "LOUD LOL" },
+    { $set: { pontuacao: 95 } }
+)
+
+db.equipes.updateOne(
+    { nome: "FURIA CS" },
+    { $set: { pontuacao: 88 } }
+)
+
+db.equipes.updateOne(
+    { nome: "paiN LOL" },
+    { $set: { pontuacao: 92 } }
+)
+
+db.equipes.updateOne(
+    { nome: "VKS LOL" },
+    { $set: { pontuacao: 85 } }
+)
+
+db.equipes.updateOne(
+    { nome: "KBM Valorant" },
+    { $set: { pontuacao: 78 } }
+) 
+
+
 
 // deletando alguns jogadores na colecao "jogadores":
 

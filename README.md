@@ -1,117 +1,112 @@
-# Projeto MongoDB - Banco de Dados
+# Projeto MongoDB — Plataforma de eSports
 
-# Plataforma de Gerenciamento de Organizações de eSports
+## Descrição
 
-##  Descrição da Aplicação
+Sistema de gerenciamento do cenário competitivo de esportes eletrônicos, desenvolvido com MongoDB. Permite armazenar e consultar dados de organizações, equipes, jogadores, jogos, patrocinadores, contratos e partidas.
 
-A aplicação tem como objetivo gerenciar informações relacionadas ao cenário competitivo de esportes eletrônicos (eSports). O sistema permite armazenar dados de organizações, equipes, jogadores, membros da comissão técnica, jogos eletrônicos, patrocinadores e contratos de patrocínio.
+---
 
-A plataforma foi desenvolvida utilizando MongoDB, adotando o modelo orientado a documentos para representar entidades do ambiente competitivo de eSports.
+## Estrutura do Banco de Dados
 
-##  Objetivo
+**Banco:** `plataforma_esports`
 
-O objetivo do sistema é possibilitar o gerenciamento das principais informações das organizações de eSports, permitindo consultas sobre equipes, jogadores, salários, patrocinadores e investimentos realizados nas equipes.
+| Coleção | Quantidade | Descrição |
+| --- | --- | --- |
+| `organizacoes` | 8 | Organizações de eSports |
+| `jogos` | 30 | Jogos eletrônicos |
+| `equipes` | 22 | Equipes competitivas |
+| `jogadores` | ~80 | Jogadores profissionais |
+| `patrocinadores` | 22 | Patrocinadores |
+| `contratos` | 36 | Contratos de patrocínio |
+| `partidas` | 66 | Partidas disputadas e agendadas |
 
-##  Estrutura do Banco de Dados
-M
-O banco de dados foi denominado "plataforma_esports" e é composto pelas seguintes coleções:
+### Atributos principais por coleção
 
-### Organizacoes
+**organizacoes:** `_id, nome, cnpj, ano_fundacao, valor_mercado, sede, redes_sociais`
 
-Armazena informações sobre as organizações de eSports.
+**jogos:** `_id, nome, genero, desenvolvedora, data_lancamento, plataformas`
 
-Atributos:
+**equipes:** `_id, nome, organizacao_id, jogo_id, orcamento_anual, ativa, conquistas`
 
-* _id
-* nome
-* cnpj
-* ano_fundacao
-* sede
-* redes_sociais
+**jogadores:** `_id, nickname, nome_completo, salario, equipe_id, funcoes, estatisticas, biografia, ativo`
 
-### Jogos
+**patrocinadores:** `_id, empresa, segmento, sede_mundial, global, site_oficial`
 
-Armazena os jogos disputados pelas equipes.
+**contratos:** `_id, patrocinador_id, equipe_id, valor_mensal, vigencia, clausula_rescisoria`
 
-Atributos:
+**partidas:** `_id, jogo_id, torneio, fase, equipe_casa_id, equipe_visitante_id, data, duracao_minutos, placar, vencedor_id, status, mvp_id`
 
-* _id
-* nome
-* genero
-* desenvolvedora
-* data_lancamento
-* plataformas
+---
 
-### Equipes
+## Arquivos do Projeto
 
-Representa as equipes competitivas vinculadas a uma organização e a um jogo.
+```text
+Data_base/
+  povoamento.js          — cria e popula todas as coleções
+Querys/
+  consulta_simples.js    — consultas e agregações
+  updates_remocoes.js    — atualizações, inserções e remoções
+```
 
-Atributos:
+---
 
-* _id
-* nome
-* organizacao_id
-* jogo_id
-* orcamento_anual
-* ativa
-* conquistas
+## Checklist de Comandos (PDF)
 
-### Jogadores
+### Implementados ✅ — 22/31
 
-Armazena os jogadores 
+| # | Comando | Arquivo | Exemplo no código |
+| --- | --- | --- | --- |
+| 1 | `USE` | consulta_simples.js | `use("plataforma_esports")` |
+| 2 | `FIND` | consulta_simples.js | `db.jogadores.find({...})` |
+| 3 | `SIZE` | consulta_simples.js | `$size: "$conquistas"` |
+| 4 | `AGGREGATE` | consulta_simples.js | `db.equipes.aggregate([...])` |
+| 5 | `MATCH` | consulta_simples.js | `$match: { ativo: true }` |
+| 6 | `PROJECT` | consulta_simples.js | `$project: { nome: 1, ... }` |
+| 7 | `GTE` | consulta_simples.js | `{ salario: { $gte: 50000 } }` |
+| 8 | `GROUP` | consulta_simples.js | `$group: { _id: "$equipe_id" }` |
+| 9 | `SUM` | consulta_simples.js | `$sum: "$estatisticas.kills"` |
+| 13 | `EXISTS` | consulta_simples.js | `{ biografia: { $exists: true } }` |
+| 14 | `SORT` | consulta_simples.js | `.sort({ pontuacao: -1 })` |
+| 15 | `LIMIT` | consulta_simples.js | `.limit(3)` |
+| 16 | `$WHERE` | consulta_simples.js | `$where: function() {...}` |
+| 18 | `FUNCTION` | consulta_simples.js | função anônima dentro do `$where` |
+| 19 | `PRETTY` | consulta_simples.js | `.pretty()` |
+| 20 | `ALL` | consulta_simples.js | `{ plataformas: { $all: [...] } }` |
+| 21 | `SET` | updates_remocoes.js | `$set: { funcoes, ativo }` |
+| 24 | `FILTER` | consulta_simples.js | `$filter` em array de funções |
+| 25 | `UPDATEONE` | updates_remocoes.js | `db.jogadores.updateOne(...)` |
+| 26 | `SAVE` | updates_remocoes.js | `{ upsert: true }` + `insertOne` |
+| 27 | `RENAMECOLLECTION` | updates_remocoes.js | `renameCollection("atletas")` |
+| 31 | `ADDTOSET` | updates_remocoes.js | `$addToSet: { redes_sociais }` |
 
-Atributos:
+---
 
-* _id
-* nickname
-* nome_completo
-* salario
-* equipe_id
-* funcoes
-* estatisticas
-* biografia
-* ativo
+### Faltando ❌ — 9/31
 
-### Patrocinadores
+| # | Comando | Como implementar |
+| --- | --- | --- |
+| 10 | `COUNT / COUNTDOCUMENTS` | `db.jogadores.countDocuments({ ativo: true })` |
+| 11 | `MAX` | `{ $max: "$salario" }` dentro do `$group` |
+| 12 | `AVG` | `{ $avg: "$salario" }` dentro do `$group` |
+| 17 | `MAPREDUCE` | `db.jogadores.mapReduce(mapFn, reduceFn, { out: "..." })` |
+| 22 | `TEXT` | requer `createIndex({ campo: "text" })` |
+| 23 | `SEARCH` | `{ $text: { $search: "termo" } }` após criar índice |
+| 25 | `UPDATEMANY` | `db.jogadores.updateMany({ ... }, { $set: { ... } })` |
+| 28 | `COND` | `{ $cond: { if, then, else } }` dentro do `$project` |
+| 29 | `LOOKUP` | join entre `partidas` e `equipes` no aggregate |
+| 30 | `FINDONE` | `db.jogadores.findOne({ nickname: "FalleN" })` |
 
-Contém informações dos patrocinadores das organizações.
+---
 
-Atributos:
+## Como Executar
 
-* _id
-* nome
-* cnpj
-* pais
-* segmento
+```bash
+# 1. Popular o banco (primeira vez)
+mongosh --file "Data_base/povoamento.js"
 
-### Contratos
+# 2. Rodar consultas
+mongosh --file "Querys/consulta_simples.js"
 
-Representa os contratos firmados entre patrocinadores e equipes.
-
-Atributos:
-
-* _id
-* empresa
-* segmento
-* sede_mundial
-* global
-* site_oficial
-
-
-
-##  Dados Inseridos
-
-Foram cadastradas:
-
-* 5 organizações de eSports;
-* 3 jogos eletrônicos;
-* 5 equipes competitivas;
-* 25 jogadores profissionais;
-* 5 patrocinadores;
-* 10 contratos de patrocínio.
-
-##  Consultas Desenvolvidas
-
-Foram implementadas consultas para:
-
-* Atualizar o status de um jogador ($set)
+# 3. Rodar atualizações
+mongosh --file "Querys/updates_remocoes.js"
+```

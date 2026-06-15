@@ -9,6 +9,7 @@ print(db.partidas.countDocuments({
     }
 }))
 
+
 // ── AGGREGATE + GROUP + MAX: maior valor de contrato ─────────────────────────
 // $group reúne todos os contratos em um único grupo (_id: null)
 // $max identifica o maior valor encontrado no campo valor_mensal
@@ -34,4 +35,40 @@ printjson(db.jogadores.aggregate([
     }
 ]).toArray())
 
-// Update remocoes:
+
+// ── MAPREDUCE: total de kills por equipe ────────────────────────────────────
+// map percorre os jogadores emitindo (equipe_id, kills)
+// reduce agrupa os valores da mesma equipe e calcula o total de kills
+db.jogadores.mapReduce(
+    function() {
+        emit(this.equipe_id, this.estatisticas.kills);
+    },
+    function(equipe, valores) {
+        return Array.sum(valores);
+    },
+    {
+        out: "kills_por_equipe"
+    }
+)
+printjson(db.kills_por_equipe.find().toArray())
+
+
+// ── TEXT: busca textual na biografia dos jogadores ──────────────────────────
+// createIndex cria um índice de texto no campo biografia
+db.jogadores.createIndex({
+    biografia: "text"
+})
+
+// $text utiliza índice para localizar jogadores que contenham a palavra "veterano" na biografia 
+printjson(db.jogadores.find(
+    {
+        $text: {
+            $search: "veterano"
+        }
+    },
+    {
+        _id: 0,
+        nickname: 1,
+        biografia: 1
+    }
+).toArray())

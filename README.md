@@ -52,7 +52,7 @@ Querys/
 
 ## Checklist de Comandos (PDF)
 
-### Implementados ✅ — 22/31
+### Implementados ✅ — 27/31
 
 | # | Comando | Arquivo | Exemplo no código |
 | --- | --- | --- | --- |
@@ -72,10 +72,12 @@ Querys/
 | 14 | `SORT` | consulta_simples.js | `.sort({ pontuacao: -1 })` |
 | 15 | `LIMIT` | consulta_simples.js | `.limit(3)` |
 | 16 | `$WHERE` | consulta_simples.js | `$where: function() {...}` |
+| 17 | `MAPREDUCE` | testar.js | `db.jogadores.mapReduce(mapFn, reduceFn, { out: "..." })` |
 | 18 | `FUNCTION` | consulta_simples.js | função anônima dentro do `$where` |
 | 19 | `PRETTY` | consulta_simples.js | `.pretty()` |
 | 20 | `ALL` | consulta_simples.js | `{ plataformas: { $all: [...] } }` |
 | 21 | `SET` | updates_remocoes.js | `$set: { funcoes, ativo }` |
+| 22 | `TEXT` | testar.js | `createIndex({biografia: "text"})` |
 | 24 | `FILTER` | consulta_simples.js | `$filter` em array de funções |
 | 25 | `UPDATEONE` | updates_remocoes.js | `db.jogadores.updateOne(...)` |
 | 26 | `SAVE` | updates_remocoes.js | `{ upsert: true }` + `insertOne` |
@@ -84,12 +86,10 @@ Querys/
 
 ---
 
-### Faltando ❌ — 9/31
+### Faltando ❌ — 5/31
 
 | # | Comando | Como implementar |
 | --- | --- | --- |
-| 17 | `MAPREDUCE` | `db.jogadores.mapReduce(mapFn, reduceFn, { out: "..." })` |
-| 22 | `TEXT` | requer `createIndex({ campo: "text" })` |
 | 23 | `SEARCH` | `{ $text: { $search: "termo" } }` após criar índice |
 | 25 | `UPDATEMANY` | `db.jogadores.updateMany({ ... }, { $set: { ... } })` |
 | 28 | `COND` | `{ $cond: { if, then, else } }` dentro do `$project` |

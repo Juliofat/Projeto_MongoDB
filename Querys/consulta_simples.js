@@ -1,7 +1,7 @@
 use("plataforma_esports")
 
-// ── $where: jogadores com mais kills do que o dobro de deaths ────────────────
-printjson(db.jogadores.find({
+// ── $where: atletas com mais kills do que o dobro de deaths ────────────────
+printjson(db.atletas.find({
     $where: function () {
         return this.estatisticas.kills > (2 * this.estatisticas.deaths);
     }
@@ -9,14 +9,14 @@ printjson(db.jogadores.find({
 
 
 // ── SORT + LIMIT + PRETTY: top 3 equipes por pontuação ──────────────────────
-// .pretty() formata o resultado de forma legível
-db.equipes.find(
+// printjson() e .toArray() garantem que o resultado seja exibido no console ao rodar o script
+printjson(db.equipes.find(
     {},
     { _id: 0, nome: 1, pontuacao: 1 }
 )
     .sort({ pontuacao: -1 })
     .limit(3)
-    .pretty()
+    .toArray())
 
 
 // ── AGGREGATE + PROJECT + SIZE: 2 equipes com mais conquistas ───────────────
@@ -33,15 +33,15 @@ printjson(db.equipes.aggregate([
 ]).toArray())
 
 
-// ── GTE: jogadores com salário >= 50.000 ────────────────────────────────────
-printjson(db.jogadores.find(
+// ── GTE: atletas com salário >= 50.000 ────────────────────────────────────
+printjson(db.atletas.find(
     { salario: { $gte: 50000 } },
     { _id: 0, nickname: 1, salario: 1 }
 ).toArray())
 
 
-// ── EXISTS: jogadores que possuem o campo biografia ─────────────────────────
-printjson(db.jogadores.find(
+// ── EXISTS: atletas que possuem o campo biografia ─────────────────────────
+printjson(db.atletas.find(
     { biografia: { $exists: true } },
     { _id: 0, nickname: 1, biografia: 1 }
 ).toArray())
@@ -55,9 +55,9 @@ printjson(db.jogos.find(
 
 
 // ── AGGREGATE + MATCH + GROUP + SUM + MAX: estatísticas por equipe ──────────
-// $match filtra só jogadores ativos
+// $match filtra só atletas ativos
 // $group agrupa por equipe calculando total de kills ($sum) e maior salário ($max)
-printjson(db.jogadores.aggregate([
+printjson(db.atletas.aggregate([
     {
         $match: { ativo: true }
     },
@@ -73,9 +73,9 @@ printjson(db.jogadores.aggregate([
 ]).toArray())
 
 
-// ── AGGREGATE + FILTER: mostrar só funções ofensivas de cada jogador ─────────
+// ── AGGREGATE + FILTER: mostrar só funções ofensivas de cada atletas ─────────
 // $filter percorre o array "funcoes" e mantém apenas as funções ofensivas
-printjson(db.jogadores.aggregate([
+printjson(db.atletas.aggregate([
     {
         $project: {
             _id: 0,
@@ -98,10 +98,10 @@ printjson(db.jogadores.aggregate([
 
 // ── 23. SEARCH (com criação automática de índice de texto) ──────────────────
 // Criando o índice de texto na biografia para garantir que o $search não falhe
-db.jogadores.createIndex({ biografia: "text" })
+db.atletas.createIndex({ biografia: "text" })
 
-// Executando a busca por jogadores com "prodigio" na biografia
-printjson(db.jogadores.find(
+// Executando a busca por atletas com "prodigio" na biografia
+printjson(db.atletas.find(
     { $text: { $search: "prodigio" } },
     { _id: 0, nickname: 1, biografia: 1, score: { $meta: "textScore" } }
 ).sort({ score: { $meta: "textScore" } }).toArray())
@@ -116,8 +116,8 @@ db.equipes.updateMany(
 
 
 // ── 28. COND ────────────────────────────────────────────────────────────────
-// Classificando os salários dos jogadores usando uma estrutura condicional ($cond)
-printjson(db.jogadores.aggregate([
+// Classificando os salários dos atletas usando uma estrutura condicional ($cond)
+printjson(db.atletas.aggregate([
     {
         $project: {
             _id: 0,
@@ -161,7 +161,7 @@ printjson(db.equipes.aggregate([
 
 
 // ── 30. FINDONE ─────────────────────────────────────────────────────────────
-// Buscando o documento individual e específico do jogador "FalleN"
-printjson(db.jogadores.findOne(
+// Buscando o documento individual e específico do atletas "FalleN"
+printjson(db.atletas.findOne(
     { nickname: "FalleN" }
 ))

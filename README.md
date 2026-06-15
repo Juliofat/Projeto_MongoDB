@@ -52,7 +52,7 @@ Querys/
 
 ## Checklist de Comandos (PDF)
 
-### Implementados ✅ — 27/31
+### Implementados ✅ — 32/32
 
 | # | Comando | Arquivo | Exemplo no código |
 | --- | --- | --- | --- |
@@ -78,23 +78,22 @@ Querys/
 | 20 | `ALL` | consulta_simples.js | `{ plataformas: { $all: [...] } }` |
 | 21 | `SET` | updates_remocoes.js | `$set: { funcoes, ativo }` |
 | 22 | `TEXT` | testar.js | `createIndex({biografia: "text"})` |
+| 23 | `SEARCH` | consulta_simples.js | `{ $text: { $search: "prodigio" } }` |
 | 24 | `FILTER` | consulta_simples.js | `$filter` em array de funções |
 | 25 | `UPDATEONE` | updates_remocoes.js | `db.jogadores.updateOne(...)` |
+| 25 | `UPDATEMANY` | consulta_simples.js | `db.equipes.updateMany({ ativa: true }, { $mul: ... })` |
 | 26 | `SAVE` | updates_remocoes.js | `{ upsert: true }` + `insertOne` |
 | 27 | `RENAMECOLLECTION` | updates_remocoes.js | `renameCollection("atletas")` |
+| 28 | `COND` | consulta_simples.js | `$cond: { if, then, else }` dentro do `$project` |
+| 29 | `LOOKUP` | consulta_simples.js | join entre `equipes` e `organizacoes` |
+| 30 | `FINDONE` | consulta_simples.js | `db.atletas.findOne({ nickname: "FalleN" })` |
 | 31 | `ADDTOSET` | updates_remocoes.js | `$addToSet: { redes_sociais }` |
 
 ---
 
-### Faltando ❌ — 5/31
+### Faltando ❌ — 0/32
 
-| # | Comando | Como implementar |
-| --- | --- | --- |
-| 23 | `SEARCH` | `{ $text: { $search: "termo" } }` após criar índice |
-| 25 | `UPDATEMANY` | `db.jogadores.updateMany({ ... }, { $set: { ... } })` |
-| 28 | `COND` | `{ $cond: { if, then, else } }` dentro do `$project` |
-| 29 | `LOOKUP` | join entre `partidas` e `equipes` no aggregate |
-| 30 | `FINDONE` | `db.jogadores.findOne({ nickname: "FalleN" })` |
+Nenhum comando faltando.
 
 ---
 

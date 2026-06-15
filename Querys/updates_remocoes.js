@@ -161,6 +161,7 @@ os documentos permanecem os mesmos, apenas altera o nome da coleacao
 */
 
 db.jogadores.renameCollection("atletas")
+db.atletas.renameCollection("jogadores")
 
 
 

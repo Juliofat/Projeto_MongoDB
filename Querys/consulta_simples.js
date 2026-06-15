@@ -1,8 +1,8 @@
-use ("plataforma_esports")
+use("plataforma_esports")
 
 // ── $where: jogadores com mais kills do que o dobro de deaths ────────────────
 printjson(db.jogadores.find({
-    $where: function() {
+    $where: function () {
         return this.estatisticas.kills > (2 * this.estatisticas.deaths);
     }
 }).toArray())
@@ -14,9 +14,9 @@ db.equipes.find(
     {},
     { _id: 0, nome: 1, pontuacao: 1 }
 )
-.sort({ pontuacao: -1 })
-.limit(3)
-.pretty()
+    .sort({ pontuacao: -1 })
+    .limit(3)
+    .pretty()
 
 
 // ── AGGREGATE + PROJECT + SIZE: 2 equipes com mais conquistas ───────────────
@@ -64,9 +64,9 @@ printjson(db.jogadores.aggregate([
     {
         $group: {
             _id: "$equipe_id",
-            total_kills:    { $sum: "$estatisticas.kills" },
-            maior_salario:  { $max: "$salario" },
-            media_salario:  { $avg: "$salario" }
+            total_kills: { $sum: "$estatisticas.kills" },
+            maior_salario: { $max: "$salario" },
+            media_salario: { $avg: "$salario" }
         }
     },
     { $sort: { total_kills: -1 } }
@@ -98,10 +98,10 @@ printjson(db.jogadores.aggregate([
 
 // ── 23. SEARCH (com criação automática de índice de texto) ──────────────────
 // Criando o índice de texto na biografia para garantir que o $search não falhe
-db.atletas.createIndex({ biografia: "text" })
+db.jogadores.createIndex({ biografia: "text" })
 
-// Executando a busca por atletas com "prodigio" na biografia
-printjson(db.atletas.find(
+// Executando a busca por jogadores com "prodigio" na biografia
+printjson(db.jogadores.find(
     { $text: { $search: "prodigio" } },
     { _id: 0, nickname: 1, biografia: 1, score: { $meta: "textScore" } }
 ).sort({ score: { $meta: "textScore" } }).toArray())
@@ -116,18 +116,18 @@ db.equipes.updateMany(
 
 
 // ── 28. COND ────────────────────────────────────────────────────────────────
-// Classificando os salários dos atletas usando uma estrutura condicional ($cond)
-printjson(db.atletas.aggregate([
+// Classificando os salários dos jogadores usando uma estrutura condicional ($cond)
+printjson(db.jogadores.aggregate([
     {
         $project: {
             _id: 0,
             nickname: 1,
             salario: 1,
             categoria_salario: {
-                $cond: { 
-                    if: { $gte: ["$salario", 50000] }, 
-                    then: "Salário Alto", 
-                    else: "Salário Padrão" 
+                $cond: {
+                    if: { $gte: ["$salario", 50000] },
+                    then: "Salário Alto",
+                    else: "Salário Padrão"
                 }
             }
         }
@@ -162,6 +162,6 @@ printjson(db.equipes.aggregate([
 
 // ── 30. FINDONE ─────────────────────────────────────────────────────────────
 // Buscando o documento individual e específico do jogador "FalleN"
-printjson(db.atletas.findOne(
+printjson(db.jogadores.findOne(
     { nickname: "FalleN" }
 ))

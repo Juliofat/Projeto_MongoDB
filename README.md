@@ -65,6 +65,9 @@ Querys/
 | 7 | `GTE` | consulta_simples.js | `{ salario: { $gte: 50000 } }` |
 | 8 | `GROUP` | consulta_simples.js | `$group: { _id: "$equipe_id" }` |
 | 9 | `SUM` | consulta_simples.js | `$sum: "$estatisticas.kills"` |
+| 10 | `COUNT / COUNTDOCUMENTS` | testar.js | `db.jogadores.countDocuments({ data_partida: { ... }})` |
+| 11 | `MAX` | testar.js | `$max: "$valor_mensal"`|
+| 12 | `AVG` | testar.js | `$avg: "$estatisticas.kills"`|
 | 13 | `EXISTS` | consulta_simples.js | `{ biografia: { $exists: true } }` |
 | 14 | `SORT` | consulta_simples.js | `.sort({ pontuacao: -1 })` |
 | 15 | `LIMIT` | consulta_simples.js | `.limit(3)` |
@@ -85,9 +88,6 @@ Querys/
 
 | # | Comando | Como implementar |
 | --- | --- | --- |
-| 10 | `COUNT / COUNTDOCUMENTS` | `db.jogadores.countDocuments({ ativo: true })` |
-| 11 | `MAX` | `{ $max: "$salario" }` dentro do `$group` |
-| 12 | `AVG` | `{ $avg: "$salario" }` dentro do `$group` |
 | 17 | `MAPREDUCE` | `db.jogadores.mapReduce(mapFn, reduceFn, { out: "..." })` |
 | 22 | `TEXT` | requer `createIndex({ campo: "text" })` |
 | 23 | `SEARCH` | `{ $text: { $search: "termo" } }` após criar índice |

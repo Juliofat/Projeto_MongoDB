@@ -95,3 +95,73 @@ printjson(db.jogadores.aggregate([
         $match: { funcoes_ofensivas: { $exists: true, $ne: [] } }
     }
 ]).toArray())
+
+// ── 23. SEARCH (com criação automática de índice de texto) ──────────────────
+// Criando o índice de texto na biografia para garantir que o $search não falhe
+db.atletas.createIndex({ biografia: "text" })
+
+// Executando a busca por atletas com "prodigio" na biografia
+printjson(db.atletas.find(
+    { $text: { $search: "prodigio" } },
+    { _id: 0, nickname: 1, biografia: 1, score: { $meta: "textScore" } }
+).sort({ score: { $meta: "textScore" } }).toArray())
+
+
+// ── 25. UPDATEMANY ──────────────────────────────────────────────────────────
+// Aplicando um aumento de 10% no orçamento anual de todas as equipes ativas
+db.equipes.updateMany(
+    { ativa: true },
+    { $mul: { orcamento_anual: 1.10 } }
+)
+
+
+// ── 28. COND ────────────────────────────────────────────────────────────────
+// Classificando os salários dos atletas usando uma estrutura condicional ($cond)
+printjson(db.atletas.aggregate([
+    {
+        $project: {
+            _id: 0,
+            nickname: 1,
+            salario: 1,
+            categoria_salario: {
+                $cond: { 
+                    if: { $gte: ["$salario", 50000] }, 
+                    then: "Salário Alto", 
+                    else: "Salário Padrão" 
+                }
+            }
+        }
+    },
+    { $limit: 5 }
+]).toArray())
+
+
+// ── 29. LOOKUP ──────────────────────────────────────────────────────────────
+// Fazendo a junção (JOIN) entre a coleção de equipes e a de organizações
+printjson(db.equipes.aggregate([
+    {
+        $lookup: {
+            from: "organizacoes",
+            localField: "organizacao_id",
+            foreignField: "_id",
+            as: "dados_organizacao"
+        }
+    },
+    {
+        $project: {
+            _id: 0,
+            nome: 1,
+            orcamento_anual: 1,
+            "dados_organizacao.nome": 1,
+            "dados_organizacao.valor_mercado": 1
+        }
+    },
+    { $limit: 3 }
+]).toArray())
+
+
+// ── 30. FINDONE ─────────────────────────────────────────────────────────────
+// Buscando o documento individual e específico do jogador "FalleN"
+printjson(db.atletas.findOne(
+    { nickname: "FalleN" }
+))

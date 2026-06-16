@@ -65,19 +65,19 @@ Querys/
 | 7 | `GTE` | consulta_simples.js | `{ salario: { $gte: 50000 } }` |
 | 8 | `GROUP` | consulta_simples.js | `$group: { _id: "$equipe_id" }` |
 | 9 | `SUM` | consulta_simples.js | `$sum: "$estatisticas.kills"` |
-| 10 | `COUNT / COUNTDOCUMENTS` | testar.js | `db.jogadores.countDocuments({ data_partida: { ... }})` |
-| 11 | `MAX` | testar.js | `$max: "$valor_mensal"`|
-| 12 | `AVG` | testar.js | `$avg: "$estatisticas.kills"`|
+| 10 | `COUNT / COUNTDOCUMENTS` | consulta_simples.js | `db.jogadores.countDocuments({ data_partida: { ... }})` |
+| 11 | `MAX` | consulta_simples.js | `$max: "$valor_mensal"`|
+| 12 | `AVG` | consulta_simples.js | `$avg: "$estatisticas.kills"`|
 | 13 | `EXISTS` | consulta_simples.js | `{ biografia: { $exists: true } }` |
 | 14 | `SORT` | consulta_simples.js | `.sort({ pontuacao: -1 })` |
 | 15 | `LIMIT` | consulta_simples.js | `.limit(3)` |
 | 16 | `$WHERE` | consulta_simples.js | `$where: function() {...}` |
-| 17 | `MAPREDUCE` | testar.js | `db.jogadores.mapReduce(mapFn, reduceFn, { out: "..." })` |
+| 17 | `MAPREDUCE` | consulta_simples.js | `db.jogadores.mapReduce(mapFn, reduceFn, { out: "..." })` |
 | 18 | `FUNCTION` | consulta_simples.js | função anônima dentro do `$where` |
 | 19 | `PRETTY` | consulta_simples.js | `.pretty()` |
 | 20 | `ALL` | consulta_simples.js | `{ plataformas: { $all: [...] } }` |
 | 21 | `SET` | updates_remocoes.js | `$set: { funcoes, ativo }` |
-| 22 | `TEXT` | testar.js | `createIndex({biografia: "text"})` |
+| 22 | `TEXT` | consulta_simples.js | `createIndex({biografia: "text"})` |
 | 23 | `SEARCH` | consulta_simples.js | `{ $text: { $search: "prodigio" } }` |
 | 24 | `FILTER` | consulta_simples.js | `$filter` em array de funções |
 | 25 | `UPDATEONE` | updates_remocoes.js | `db.jogadores.updateOne(...)` |
